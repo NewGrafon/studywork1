@@ -372,7 +372,7 @@ app.post('/schoolCreate', checkAuthenticated, upload.single('logo'), async (req,
 
         } else {
 
-            const user = await accountInfoChecker(await req.user);
+            const user = await req.user;
 
             //
             let educationTypes;
