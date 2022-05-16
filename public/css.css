@@ -312,8 +312,8 @@ button:active
 .enter_n_register
 {
 	margin-right: 10px;
-	height: 32px;
-	top: calc(50% - 16px);
+	height: 32px !important;
+	top: calc(50% - 16px) !important;
 	outline: none !important;
 	background-color: transparent !important;
 	justify-content: space-between !important;
