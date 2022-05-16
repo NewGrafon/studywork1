@@ -1,0 +1,36 @@
+<%- include partials/head.ejs %>
+
+        <section class="userSchools_zone">
+
+			<div class="listZone">
+				<div class="backBtnContainer" style="justify-content: center;">
+					<form action="/schoolCreate" method="GET"><button style="width: 240px">Создать новое заведение</button></form>
+				</div>
+				<div class="listOfYourSchools panel">
+					<% try { if (Status) { %>
+						<p class="error" style="margin-bottom: 4px; margin-top: 0; font-size: 12px"><%= Status %></p>
+					<% } } catch {}%>
+					
+					<% if (yourSchools) { %>
+						<% yourSchools.forEach((elem, id) => { %>
+						<div id="<%= id %>" class="sListElement panel table_row <%= elem.schoolType %> <% for (let key in (elem.educationType)) { %> educ<%=key%> <% } %>">
+							<div class="table_column schoolTable">
+								<p class="schoolNameLow panel" id="s1_nameLow"><%= elem.shortName %></p>
+								<div class="y_s_btns">
+									<form action="/preview/<%=elem._id%>-yours" method="GET"><button class="look">Просмотреть</button></form>
+									<form action="/schoolEdit/<%=elem._id%>-yours" method="GET"><button class="edit">Изменить</button></form>
+									<form action="/schoolDelete?_method=DELETE&id=<%=elem._id%>" method="POST"><button class="delete">Удалить</button></form>
+								</div>
+							</div>
+						</div>
+						<% }) %>
+					<% } %>
+				</div>
+			</div>
+
+		</section>
+	</main>
+	<%- include partials/footer.ejs %>
+</body>
+<script type="text/javascript" src="/scripts/accountUL_List.js"></script>
+</html>

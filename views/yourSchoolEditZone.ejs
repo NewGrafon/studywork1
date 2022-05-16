@@ -1,0 +1,238 @@
+<%- include partials/head.ejs %>
+<section class="userSchools_zone">
+<div class="uS_zone_container editZone active">
+    <div class="backBtnContainer">
+        <% if (currentPlace !== 'Список заведений') {%>
+            <button class="p_z_backBtn" onclick="history.back();"><-- Назад</button>
+            <% } else { %>
+            <button class="p_z_backBtn" onclick="window.location.href = '/'"><-- Назад</button>    
+            <% } %>
+    </div>
+    <div class="centered_your_schools_panel panel">
+        <% if (editer) { %>
+        <form id="form" enctype="multipart/form-data" action="/schoolEditSave?id=<%=concreteSchool._id%>" method="POST">
+        <% } else { %>
+        <form id="form" enctype="multipart/form-data" action="/schoolCreate" method="POST">
+        <% } %>
+
+        <div class="uSLow">
+
+        <div class="userSchoolLowName">
+            <p class="labels-big">Короткое название заведения</p>
+            <textarea class="lowName" name="lowName" maxlength="70" required><% if (concreteSchool) { %><%=concreteSchool.shortName%><% } %></textarea>
+        </div>
+
+        <div class="userSchoolLowDescription">
+            <p class="labels-big">Полное название</p>
+            <textarea class="fullName" name="fullName" maxlength="210" required><% if (concreteSchool) { %><%=concreteSchool.fullName%><% } %></textarea>
+        </div>
+
+        </div>
+
+        <div class="uSFull">
+
+        <div class="userSchoolFullName">
+            <p class="labels-big">Короткое описание</p>
+            <textarea class="lowDesc" name="lowDesc" maxlength="630" required><% if (concreteSchool) { %><%=concreteSchool.shortDescription%><% } %></textarea>
+        </div>
+
+        <div class="userSchoolFullDescription">
+            <p class="labels-big">Полное описание</p>
+            <textarea rows="1" class="fullDesc" name="fullDesc" maxlength="4500" required><% if (concreteSchool) { %><%=concreteSchool.fullDescription%><% } %></textarea>
+        </div>
+
+        </div>
+
+        <div class="userSchoolParameters">
+
+            <p class="labels">Типы получения образования:</p>
+            <div class="uSP_TypeOfEducation">
+                <label class="table_row filterItem uSP_inputElem <% if (concreteSchool && concreteSchool.educationType[0] != null) { %> SelectedInput <% } %>" id="ET0"><input hidden type="checkbox" name="EducType" value="0" <% if (concreteSchool && concreteSchool.educationType[0] != null) { %> checked <% } %> ><p>Очный</p></label>
+                <label class="table_row filterItem uSP_inputElem <% if (concreteSchool && concreteSchool.educationType[1] != null) { %> SelectedInput <% } %>" id="ET1"><input hidden type="checkbox" name="EducType" value="1" <% if (concreteSchool && concreteSchool.educationType[1] != null) { %> checked <% } %>><p>Заочный</p></label>
+                <label class="table_row filterItem uSP_inputElem <% if (concreteSchool && concreteSchool.educationType[2] != null) { %> SelectedInput <% } %>" id="ET2"><input hidden type="checkbox" name="EducType" value="2" <% if (concreteSchool && concreteSchool.educationType[2] != null) { %> checked <% } %>><p>Вечерняя</p></label>
+                <label class="table_row filterItem uSP_inputElem <% if (concreteSchool && concreteSchool.educationType[3] != null) { %> SelectedInput <% } %>" id="ET3"><input hidden type="checkbox" name="EducType" value="3" <% if (concreteSchool && concreteSchool.educationType[3] != null) { %> checked <% } %>><p>Экстернат</p></label>
+                <label class="table_row filterItem uSP_inputElem <% if (concreteSchool && concreteSchool.educationType[4] != null) { %> SelectedInput <% } %>" id="ET4"><input hidden type="checkbox" name="EducType" value="4" <% if (concreteSchool && concreteSchool.educationType[4] != null) { %> checked <% } %>><p>Дистанционный</p></label>
+            </div>
+
+            <p class="labels ">Тип заведения</p>
+            <div class="uSP_TypeOfSchool">
+                <% if (concreteSchool) { %>
+                <label class="table_row filterItem uSP_inputElem <% if (concreteSchool.schoolType === 0) { %> SelectedInput <% } %>" id="ST0"><input hidden type="radio" name="TypeOfSchool" value="0" <% if (concreteSchool.schoolType === 0) { %> checked <% } %> ><p>Школа</p></label>
+                <label class="table_row filterItem uSP_inputElem <% if (concreteSchool.schoolType === 1) { %> SelectedInput <% } %>" id="ST1"><input hidden type="radio" name="TypeOfSchool" value="1" <% if (concreteSchool.schoolType === 1) { %> checked <% } %> ><p>Техникум/Колледж</p></label>
+                <label class="table_row filterItem uSP_inputElem <% if (concreteSchool.schoolType === 2) { %> SelectedInput <% } %>" id="ST2"><input hidden type="radio" name="TypeOfSchool" value="2" <% if (concreteSchool.schoolType === 2) { %> checked <% } %> ><p>ВУЗ</p></label>   
+                <% } else { %>
+                <label class="table_row filterItem uSP_inputElem" id="ST0"><input hidden type="radio" name="TypeOfSchool" value="0" checked><p>Школа</p></label>
+                <label class="table_row filterItem uSP_inputElem" id="ST1"><input hidden type="radio" name="TypeOfSchool" value="1"><p>Техникум/Колледж</p></label>
+                <label class="table_row filterItem uSP_inputElem" id="ST2"><input hidden type="radio" name="TypeOfSchool" value="2"><p>ВУЗ</p></label>
+                <% } %>
+            </div>
+            
+            <div class="labels hr uSP_d_gO_ePT">
+                <label><p>Наличие общежития</p><input type="checkbox" name="dormitory" value=true <% if (concreteSchool && concreteSchool.dormitory === true) { %> checked <% } %> ></label>
+                <hr class="wrapper">
+                <label><p>Государственная форма собственности</p><input type="checkbox" name="govermentOwnership" value=true <% if (concreteSchool && concreteSchool.govermentOwnership === true) { %> checked <% } %> ></label>
+                <hr class="wrapper">
+                <div>
+                    <label><p>Есть бюджетные места</p><input type="checkbox" name="ePT_budget" value=true <% if (concreteSchool && concreteSchool.educationPriceTypes.budget === true) { %> checked <% } %> ></label>
+                    <h1></h1>
+                    <label><p>Есть платные места</p><input type="checkbox" name="ePT_paid" value=true <% if (concreteSchool && concreteSchool.educationPriceTypes.paid === true) { %> checked <% } %> ></label>
+                </div>
+            </div>            
+
+            <div class="not_active" id="collegesAndVuzsBtns">
+                <div class="uSP_placeChanger">
+                    <button id="categoriesLeft" type="button"><</button>
+                    <h2 class="not_active" id="proff">Профессии</h2>
+                    <h2 class="not_active" id="specs">Специальности</h2>
+                    <!--  -->
+                    <h2 class="not_active" id="bakalavriat">Бакалавриат</h2>
+                    <h2 class="not_active" id="magistratura">Магистратура</h2>
+                    <h2 class="not_active" id="specialitet">Специалитет</h2>
+                    <button id="categoriesRight" type="button">></button>
+                </div>
+
+                <!--  -->
+
+                <div class="not_active" id="proff">
+                    <% for (let i=0; i < infoBase.CollegeProff.length; i++) { %>
+
+                    <% if (concreteSchool.CollegeProff && concreteSchool.CollegeProff[i]) { %>
+                    <label class="labels-compact <% if ((i+1) % 2 === 0) { %>grey-back<% } %>">
+                        <input type="checkbox" name="CollegeProff" value="<%=i%>" checked>
+                        <div>
+                            <p class="uSP_elemName"><%=infoBase.CollegeProff[i].name%></p>
+                            <p class="uSP_elemCode">Код: <%=infoBase.CollegeProff[i].code%></p>
+                        </div>
+                    </label> 
+                    <% } else { %>
+                    <label class="labels-compact <% if ((i+1) % 2 === 0) { %>grey-back<% } %>">
+                        <input type="checkbox" name="CollegeProff" value="<%=i%>">
+                        <div>
+                            <p class="uSP_elemName"><%=infoBase.CollegeProff[i].name%></p>
+                            <p class="uSP_elemCode">Код: <%=infoBase.CollegeProff[i].code%></p>
+                        </div>
+                    </label>        
+                    <% } %>
+                    <% } %>
+                </div>
+
+                <!--  -->
+
+                <div class="not_active" id="specs">
+                    <% for (let i=0; i < infoBase.CollegeSpecs.length; i++) { %>
+                        <% if (concreteSchool.CollegeSpecs && concreteSchool.CollegeSpecs[i]) { %>
+                    <label class="labels-compact <% if ((i+1) % 2 === 0) { %>grey-back<% } %>">
+                        <input type="checkbox" name="CollegeSpecs" value="<%=i%>" checked>
+                        <div>
+                            <p class="uSP_elemName"><%=infoBase.CollegeSpecs[i].name%></p>
+                            <p class="uSP_elemCode">Код: <%=infoBase.CollegeSpecs[i].code%></p>
+                        </div>
+                    </label> 
+                    <% } else { %>
+                    <label class="labels-compact <% if ((i+1) % 2 === 0) { %>grey-back<% } %>">
+                        <input type="checkbox" name="CollegeSpecs" value="<%=i%>">
+                        <div>
+                            <p class="uSP_elemName"><%=infoBase.CollegeSpecs[i].name%></p>
+                            <p class="uSP_elemCode">Код: <%=infoBase.CollegeSpecs[i].code%></p>
+                        </div>
+                    </label>        
+                    <% } %>
+                    <% } %>
+                </div>
+
+                <!--  -->
+
+                <div class="not_active" id="bakalavriat">
+                    <% for (let i=0; i < infoBase.VuzBakalavriat.length; i++) { %>
+                        <% if (concreteSchool.VuzBakalavriat && concreteSchool.VuzBakalavriat[i]) { %>
+                    <label class="labels-compact <% if ((i+1) % 2 === 0) { %>grey-back<% } %>">
+                        <input type="checkbox" name="VuzBakalavriat" value="<%=i%>" checked>
+                        <div>
+                            <p class="uSP_elemName"><%=infoBase.VuzBakalavriat[i].name%></p>
+                            <p class="uSP_elemCode">Код: <%=infoBase.VuzBakalavriat[i].code%></p>
+                        </div>
+                    </label> 
+                    <% } else { %>
+                    <label class="labels-compact <% if ((i+1) % 2 === 0) { %>grey-back<% } %>">
+                        <input type="checkbox" name="VuzBakalavriat" value="<%=i%>">
+                        <div>
+                            <p class="uSP_elemName"><%=infoBase.VuzBakalavriat[i].name%></p>
+                            <p class="uSP_elemCode">Код: <%=infoBase.VuzBakalavriat[i].code%></p>
+                        </div>
+                    </label>        
+                    <% } %>
+                    <% } %>
+                </div>
+
+                <!--  -->
+
+                <div class="not_active" id="magistratura">
+                    <% for (let i=0; i < infoBase.VuzMagistratura.length; i++) { %>
+                        <% if (concreteSchool.VuzMagistratura && concreteSchool.VuzMagistratura[i]) { %>
+                    <label class="labels-compact <% if ((i+1) % 2 === 0) { %>grey-back<% } %>">
+                        <input type="checkbox" name="VuzMagistratura" value="<%=i%>" checked>
+                        <div>
+                            <p class="uSP_elemName"><%=infoBase.VuzMagistratura[i].name%></p>
+                            <p class="uSP_elemCode">Код: <%=infoBase.VuzMagistratura[i].code%></p>
+                        </div>
+                    </label> 
+                    <% } else { %>
+                    <label class="labels-compact <% if ((i+1) % 2 === 0) { %>grey-back<% } %>">
+                        <input type="checkbox" name="VuzMagistratura" value="<%=i%>">
+                        <div>
+                            <p class="uSP_elemName"><%=infoBase.VuzMagistratura[i].name%></p>
+                            <p class="uSP_elemCode">Код: <%=infoBase.VuzMagistratura[i].code%></p>
+                        </div>
+                    </label>        
+                    <% } %>
+                    <% } %>
+                </div>
+                <!--  -->
+
+                <div class="not_active" id="specialitet">
+                    <% for (let i=0; i < infoBase.VuzSpecialitet.length; i++) { %>
+                        <% if (concreteSchool.VuzSpecialitet && concreteSchool.VuzSpecialitet[i]) { %>
+                    <label class="labels-compact <% if ((i+1) % 2 === 0) { %>grey-back<% } %>">
+                        <input type="checkbox" name="VuzSpecialitet" value="<%=i%>" checked>
+                        <div>
+                            <p class="uSP_elemName"><%=infoBase.VuzSpecialitet[i].name%></p>
+                            <p class="uSP_elemCode">Код: <%=infoBase.VuzSpecialitet[i].code%></p>
+                        </div>
+                    </label> 
+                    <% } else { %>
+                    <label class="labels-compact <% if ((i+1) % 2 === 0) { %>grey-back<% } %>">
+                        <input type="checkbox" name="VuzSpecialitet" value="<%=i%>">
+                        <div>
+                            <p class="uSP_elemName"><%=infoBase.VuzSpecialitet[i].name%></p>
+                            <p class="uSP_elemCode">Код: <%=infoBase.VuzSpecialitet[i].code%></p>
+                        </div>
+                    </label>        
+                    <% } %>
+                    <% } %>
+                </div>
+            </div>
+            <p class="labels hr">Логотип заведения</p>
+            <label class="uSP_imgLoadZone">
+                <img id="imgLoaderLabel" style="background-image: url(<% if (concreteSchool.logo) { %>http://<%=localURL%>/pictures/<%=concreteSchool._id%><% } %>);">
+                <p class="uSP_uploadIco"></p>
+                <input name="logo" type="file" id="loaderBtn" value="<% if (concreteSchool.logo) { %>http://<%=localURL%>/pictures/<%=concreteSchool._id%><% } %>" hidden>
+            </label>
+            <p class="labels hr">Ссылка на сайт заведения</p>
+            <textarea class="educ_link" name="educ_link" maxlength="512"><% try { %><%= concreteSchool.schoolLink %><% } catch {} %></textarea>
+
+            <button class="user_school_confirm_edits" type="submit">Сохранить <b>всё</b></button>
+        </div>
+        </form>
+    </div>
+</div>
+</section>
+<%- include partials/footer.ejs %>
+</main>
+</body>
+<script type="text/javascript"> 
+    let selectedSchoolType = <% if (concreteSchool) { %><%= concreteSchool.schoolType %><% } else { %>0<% } %>;
+</script> 
+<script type="text/javascript" src="/scripts/imgUploader.js"></script>
+<script type="text/javascript" src="/scripts/schoolEditer.js"></script>
+<script type="text/javascript" src="/scripts/accountUL_List.js"></script>
+</html>

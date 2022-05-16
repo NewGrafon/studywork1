@@ -1,0 +1,32 @@
+<%- include partials/head.ejs %>
+
+<section class="admin_zone active">
+			<div class="table_row">
+				<div class="admin_requests table_column panel">
+					<% allRequests.forEach((elem) => { %>
+						<div class="request_elem table_row panel">
+							<div class="school_name_inRequest panel"><p>Короткое название заведения:<br><%= elem.shortName %></p></div>
+							<div class="school_editedZones_inRequest panel">
+								<p class="r_e_headParagraph">Тип запроса:<br>
+									<% if (elem.requestType === 1) { %>Создание нового заведения</p> <% } %>
+									<% if (elem.requestType === 2) { %>Изменение заведения</p> <% } %>
+									<% if (elem.requestType === 3) { %>Удаление заведения</p> <% } %>
+								<button class="fullInfoAboutRequest_btn" onclick="window.location.href = '/request_preview/<%= elem._id %>'">
+									Подробнее...
+								</button>
+							</div>
+							
+								
+							
+						</div>
+					<% }) %>
+
+
+				</div>
+				<!--- <div class="server_stability panel" hidden>...Информация о состоянии серверов...<br>(В разработке)</div> --->
+			</div>
+		</section>
+</main>
+</body>
+<script type="text/javascript" src="/scripts/accountUL_List.js"></script>
+</html>

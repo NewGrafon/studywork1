@@ -1,0 +1,7 @@
+.env
+.idea
+node_modules
+local_index.js
+localImgStorage
+DB_LOG_PASS.txt
+DB_PORT.txt

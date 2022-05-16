@@ -1,0 +1,206 @@
+<%- include partials/head.ejs %>
+
+        <section class="preview_zone active">
+                <div class="p_z_content panel">
+                    <% if (currentPlace !== 'Список заведений') {%>
+                    <button class="p_z_backBtn" onclick="history.back();">< Назад</button>
+                    <% } else { %>
+                    <button class="p_z_backBtn" onclick="window.location.href = '/'">< Назад</button>    
+                    <% } %>
+
+                    <div class="p_z_topContent">
+                        <div class="p_z_shortNameAndOther">
+                            <h1><%- schoolInfo.fullName %></h1>
+                            <div>
+                                <% try { %>
+                                <% if (schoolInfo.educationPriceTypes.budget === true)  { %>
+                                    <p>✓ Есть бюджетные места</p>
+                                <% } %>
+                                <% if (schoolInfo.dormitory === true)  { %>
+                                    <p>✓ Есть общежитие</p>
+                                <% } %>
+                                <% if (schoolInfo.govermentOwnership === true)  { %>
+                                    <p>✓ Государственное заведение</p>
+                                <% } %>
+
+                                <% } catch (e) { console.log(e) } %>
+                                <h1 class="wrapper"></h1>
+                                <h2>
+                                <% if (schoolInfo.schoolType === 0) { %>
+                                Школа
+                                <% } else if (schoolInfo.schoolType === 1) { %>
+                                Техникум
+                                <% } else if (schoolInfo.schoolType === 2) { %>
+                                ВУЗ
+                                <% } %>
+                                </h2>
+
+                            </div>
+                            <% if (typeOfPreview === 1 && schoolInfo.logo != (null || undefined)) { %>
+                            <div class="p_z_logo" style="background-image: url(http://<%=localURL%>/pictures/<%=schoolInfo._id%>);"></div>
+                            <% } else if (typeOfPreview === 2 && schoolInfo.logo != (null || undefined)){ %>
+                            <div class="p_z_logo" style="background-image: url(http://<%=localURL%>/adminpictures/<%=schoolInfo._id%>);"></div>
+                            <% } %>
+                        </div>
+                        <div class="p_z_info">
+                            <div class="p_z_info_zoneSelectors">
+                                <p class="p_z_info_activeSelector" id="p_z_descBtn">Описание</p>
+                                <% if (schoolInfo.schoolType !== 0) { %><p id="p_z_waysBtn">Учебные направления</p><% } %>
+                            </div>
+                            <div class="p_z_info_contentZones">
+                                <div class="p_z_info_contentZones_fullInfo">
+                                    <p id="p_z_shortDescription">
+                                        <%- schoolInfo.shortDescription %>
+                                    </p>
+                                    <p id="p_z_fullDescription">
+                                        <b>Полное описание:</b><br>
+                                        <%- schoolInfo.fullDescription %>
+                                    </p>
+                                </div>
+                                <% let createdH1 = false; if (schoolInfo.schoolType !== 0) { %>
+                                <div class="p_z_info_contentZones_ways not_active">
+                                    <% if (schoolInfo.schoolType === 1 && (schoolInfo.CollegeProff != null || schoolInfo.CollegeSpecs != null)) { %>
+                                    <div class="colleges_or_vuzs_btns">
+                                        <% if (schoolInfo.CollegeSpecs != null) { %> <div><p class="ways_btn college" id="colleges_btn0">Специальности</p></div> <% } %>
+                                        <% if (schoolInfo.CollegeProff != null) { %> <div><p class="ways_btn college" id="colleges_btn1">Профессии</p></div> <% } %>
+                                    </div>
+                                    <% } else if (schoolInfo.schoolType !== 2) { createdH1 = true;%> 
+                                        <% if (schoolInfo.schoolType === 0) { %>
+                                        <h2>Это школа, учебных направлений нет.</h2>
+                                        <% } else { %>    
+                                        <h2>Учебных направлений нет.</h2>
+                                        <% } %>
+                                    <% } %>
+
+                                    <!-- ТЕХНИКУМ ЛИСТЫ 1 -->
+
+                                    <% if (schoolInfo.CollegeSpecs != null) { %>
+                                        <div class="p_z_waysTableList not_active" id="college_list0">
+                                                <div class="p_z_waysTable" style="border: none; border-bottom: 1px solid grey; padding-left: 1px;">
+                                                    <div class="waysTableList_code"><h2 class="waysTableList_title">Код</h2></div>
+                                                    <h2 class="waysTableList_name waysTableList_title">Специальность</h2>
+                                                </div>
+                                            <% const keysArr = Object.keys(schoolInfo.CollegeSpecs);  %>
+                                            <% keysArr.forEach(elem => { %>
+                                                <div class="p_z_waysTable">
+                                                    <div class="waysTableList_code"><p><%= infoBase.CollegeSpecs[elem].code %></p></div>
+                                                    <p class="waysTableList_name"><%= infoBase.CollegeSpecs[elem].name %></p>
+                                                </div>
+                                            <% }) %>
+                                        </div>
+                                    <% } %>
+
+                                    <!-- 2 -->
+
+                                    <% if (schoolInfo.CollegeProff != null) { %>
+                                        <div class="p_z_waysTableList not_active" id="college_list1">
+                                                <div class="p_z_waysTable" style="border: none; border-bottom: 1px solid grey; padding-left: 1px;">
+                                                    <div class="waysTableList_code"><h2 class="waysTableList_title">Код</h2></div>
+                                                    <h2 class="waysTableList_name waysTableList_title">Профессия</h2>
+                                                </div>
+                                            <% const keysArr = Object.keys(schoolInfo.CollegeProff);  %>
+                                            <% keysArr.forEach(elem => { %>
+                                                <div class="p_z_waysTable">
+                                                    <div class="waysTableList_code"><p><%= infoBase.CollegeProff[elem].code %></p></div>
+                                                    <p class="waysTableList_name"><%= infoBase.CollegeProff[elem].name %></p>
+                                                </div>
+                                            <% }) %>
+                                        </div>
+                                    <% } %> 
+
+                                    <!-- КОНЕЦ ТЕХНИКУМ ЛИСТОВ -->
+
+
+
+                                    <!-- ВУЗ -->
+                                    <% if (schoolInfo.schoolType === 2 && (schoolInfo.VuzBakalavriat != null || schoolInfo.VuzMagistratura != null || schoolInfo.VuzSpecialitet != null)) { %>
+                                    <div class="colleges_or_vuzs_btns">
+                                        <% if (schoolInfo.VuzBakalavriat != null) { %> <div><p class="ways_btn vuz" id="vuzs_btn0">Бакалавриат</p></div> <% } %>
+                                        <% if (schoolInfo.VuzMagistratura != null) { %> <div><p class="ways_btn vuz" id="vuzs_btn1">Магистратура</p></div> <% } %>
+                                        <% if (schoolInfo.VuzSpecialitet != null) { %> <div><p class="ways_btn vuz" id="vuzs_btn2">Специалитет</p></div> <% } %>
+                                    </div>
+                                    <% } else if (schoolInfo.schoolType !== 1 && !createdH1) { %> 
+                                        <% if (schoolInfo.schoolType === 0) { %>
+                                        <h2>Это школа, учебных направлений нет.</h2>
+                                        <% } else { %>    
+                                        <h2>Учебных направлений нет.</h2>
+                                        <% } %>
+                                    <% } %>
+
+                                    <!-- ВУЗ ЛИСТЫ 1 -->
+
+                                    <% if (schoolInfo.VuzBakalavriat != null) { %>
+                                    <div class="p_z_waysTableList not_active" id="vuzs_list0">
+                                            <div class="p_z_waysTable" style="border: none; border-bottom: 1px solid grey; padding-left: 1px;">
+                                                <div class="waysTableList_code"><h2 class="waysTableList_title">Код</h2></div>
+                                                <h2 class="waysTableList_name waysTableList_title">Специальность</h2>
+                                            </div>
+                                        <% const keysArr = Object.keys(schoolInfo.VuzBakalavriat);  %>
+                                        <% keysArr.forEach(elem => { %>
+                                            <div class="p_z_waysTable">
+                                                <div class="waysTableList_code"><p><%= infoBase.VuzBakalavriat[elem].code %></p></div>
+                                                <p class="waysTableList_name"><%= infoBase.VuzBakalavriat[elem].name %></p>
+                                            </div>
+                                        <% }) %>
+                                    </div>
+                                    <% } %>
+
+                                    <!-- 2 -->
+
+                                    <% if (schoolInfo.VuzMagistratura != null) { %>
+                                        <div class="p_z_waysTableList not_active" id="vuzs_list1">
+                                                <div class="p_z_waysTable" style="border: none; border-bottom: 1px solid grey; padding-left: 1px;">
+                                                    <div class="waysTableList_code"><h2 class="waysTableList_title">Код</h2></div>
+                                                    <h2 class="waysTableList_name waysTableList_title">Специальность</h2>
+                                                </div>
+                                            <% const keysArr = Object.keys(schoolInfo.VuzMagistratura);  %>
+                                            <% keysArr.forEach(elem => { %>
+                                                <div class="p_z_waysTable">
+                                                    <div class="waysTableList_code"><p><%= infoBase.VuzMagistratura[elem].code %></p></div>
+                                                    <p class="waysTableList_name"><%= infoBase.VuzMagistratura[elem].name %></p>
+                                                </div>
+                                            <% }) %>
+                                        </div>
+                                    <% } %>
+                                    
+                                    <!-- 3 -->
+
+                                    <% if (schoolInfo.VuzSpecialitet != null) { %>
+                                        <div class="p_z_waysTableList not_active" id="vuzs_list2">
+                                                <div class="p_z_waysTable" style="border: none; border-bottom: 1px solid grey; padding-left: 1px;">
+                                                    <div class="waysTableList_code"><h2 class="waysTableList_title">Код</h2></div>
+                                                    <h2 class="waysTableList_name waysTableList_title">Специальность</h2>
+                                                </div>
+                                            <% const keysArr = Object.keys(schoolInfo.VuzSpecialitet);  %>
+                                            <% keysArr.forEach(elem => { %>
+                                                <div class="p_z_waysTable">
+                                                    <div class="waysTableList_code"><p><%= infoBase.VuzSpecialitet[elem].code %></p></div>
+                                                    <p class="waysTableList_name"><%= infoBase.VuzSpecialitet[elem].name %></p>
+                                                </div>
+                                            <% }) %>
+                                        </div>
+                                    <% } %> 
+
+                                    <!-- КОНЕЦ ВУЗ ЛИСТОВ  -->
+
+                                </div>
+                                <% } %>
+                            </div>
+                        </div>
+                    </div>
+                    <% if (typeOfPreview === 2) { %>
+                    <div class="p_z_admin">
+                        <form action="/deleteRequestStatus?_method=DELETE" method="POST"><button class="p_z_rejectBtn" name="id" value="<%= schoolInfo._id %>">Отклонить</button></form>
+                        <form action="/acceptRequestStatus?requestType=<%=schoolInfo.requestType%>" method="POST"><button name="id" value="<%= schoolInfo._id %>">Подтвердить</button></form>
+                    </div>  
+                    <% } %>                   
+                </div>
+        </section>
+    </main>
+	<%- include partials/footer.ejs %>
+</body>
+<script type="text/javascript" src="/scripts/preview_zoneChanger.js"></script>
+<%if (user !== null) { %>
+    <script type="text/javascript" src="/scripts/accountUL_List.js"></script>
+<% } %>
+</html>

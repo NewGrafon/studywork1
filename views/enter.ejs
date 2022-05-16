@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<link rel="stylesheet" href="/css.css">
+	<link rel="icon" href="logo.png" type="image/png">
+	<title>Список заведений города</title>
+</head>
+<body>
+	<div class="window_info">
+		<p id="window_text">Вход</p>
+	</div>
+	<header>
+		<form class="logo" action="/" method="GET"><button id="mainBtn"></button></form>
+
+		<div class="table_row">
+
+                <div class="enter_n_register table_row active">
+                    <p class="e_n_r_text active e_n_r_registrationBtn" id="registerBtn" onclick="window.location.href = '/registration';">
+                    Регистрация
+                    </p>
+                    <img class="registrationPng not_active" id="registerBtn" src="registration.png" onclick="window.location.href = '/registration';">
+                </div>
+
+
+
+		</div>
+	</header>
+	<main>
+        <section class="enter_zone active">
+			<div class="centered_enter_panel panel noHover">
+				<% if (messages.error) { %>
+					<p class="error"><%= messages.error %></p>
+				<% } %>
+				<form action="/enter" method="POST">
+				<label class="EmailOrNumber">
+					<p class="labels">E-mail</p>
+					<input type="email" name="email" required>
+				</label>
+				<label class="PassToEnter">
+					<p class="labels">Пароль</p>
+					<input type="password" name="password" required>
+				</label>
+				<button class="toMainBtn" id="mainBtn" type="submit">Войти</button>
+				</form>
+				<p class="i_forgot_password" id="error" onclick="alert('Функция в разработке')">Я забыл пароль</p>
+			</div>
+        </section>
+
+	</main>
+	<%- include partials/footer.ejs %>
+</body>
+</html>

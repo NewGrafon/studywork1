@@ -1,0 +1,29 @@
+<%- include partials/head.ejs %>
+
+        		<section class="main_zone active">
+        				<div class="schools_list panel">
+                            <% if(allSchools) { %>
+                                <% allSchools.forEach((elem, id) => { %>   
+                                <div class="sListElement table_row <%= elem.schoolType %> <% for (let key in (elem.educationType)) { %> educ<%=key%> <% } %>">
+                                    <div class="table_column schoolTable">
+                                    <a href="/preview/<%= elem._id %>-" class="schoolNameLow"><%= elem.shortName %></a>
+                                    <p class="schoolDescriptionLow"><%= elem.shortDescription %></p>
+                                    </div>
+                                    
+                                    <div class="sLE_img" <% if (elem.logo) { %>style="background-image: url(http://<%=localURL%>/pictures/<%=elem._id%>);"<% } %> ></div>
+                                    
+                                </div> 
+                                <% }) %>
+                            <% } %>
+        				</div>
+        			</div>
+        		</div>
+        	</section>
+
+	</main>
+    <%- include partials/footer.ejs %>
+    <%try { if (user.accountType >= 1) { %>
+    <script type="text/javascript" src="/scripts/accountUL_List.js"></script>
+    <% } } catch {} %>
+</body>
+</html>

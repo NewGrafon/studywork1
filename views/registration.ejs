@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<link rel="stylesheet" href="/css.css">
+	<link rel="icon" href="logo.png" type="image/png">
+	<title>Список заведений города</title>
+</head>
+<body>
+	<div class="window_info">
+		<p id="window_text">Регистрация</p>
+	</div>
+	<header>
+		<form class="logo" action="/" method="GET"><button id="mainBtn"></button></form>
+
+		<div class="table_row">
+
+                <div class="enter_n_register table_row active">
+                    <p class="e_n_r_text active e_n_r_enterBtn" id="enterBtn" onclick="window.location.href = '/enter';">
+                    Вход
+                    </p>
+                    <img class="enterPng not_active" id="enterBtn" src="enter.png" onclick="window.location.href = '/enter';">
+                </div>
+
+
+
+		</div>
+	</header>
+	<main>
+
+    <section class="register_zone active">
+
+			<div class="centered_registration_panel panel noHover">
+				<% if (errStatus) { %>
+				<p class="error"><%= errStatus %></p>
+				<% } %>
+				<form action="/registrationStatus" method="POST">
+
+					<label class="lastName">
+						<p class="labels">Фамилия</p>
+						<textarea placeholder="Иванов" name="lastName" required></textarea>
+					</label>
+
+					<label class="firstName">
+						<p class="labels">Имя</p>
+						<textarea placeholder="Иван" name="firstName" required></textarea>
+					</label>
+
+					<label class="Email">
+						<p class="labels">E-mail</p>
+						<textarea placeholder="IvanIvanov@gmail.ru" name="email" required></textarea>
+					</label>
+
+					<label class="Telephone">
+						<p class="labels">Номер телефона<h6>(не обязательно)</h6></p>
+						<textarea placeholder="+7 902 000 00 00" name="telephone"></textarea>
+					</label>
+
+					<label class="Pass">
+						<p class="labels">Пароль</p>
+						<input placeholder="**********" type="password" name="password" required>
+					</label>
+
+					<label class="СonfirmPass">
+						<p class="labels">Подтвердите пароль</p>
+						<input placeholder="**********" type="password" required>
+					</label>
+
+					<button class="toEnterBtn" id="enterBtn" type="submit">Зарегистрироваться</button>
+
+				</form>
+				<p class="i_have_account" id="enterBtn" onclick="window.location.href = '/enter';">У меня уже есть аккаунт</p>
+			</div>
+
+    </section>
+
+	</main>
+	<%- include partials/footer.ejs %>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<%- include partials/head.ejs %>
+
+                <section class="account_zone active">
+        			<div class="centered_account_panel panel noHover">
+        				<form action="/profileEditLogoConfirm" method="POST" enctype="multipart/form-data">
+						<div class="acc_img_div">
+							<label>
+								<img class="acc_profile_picture" id="imgLoaderLabel" style="background-image: url(<% if (user.logo) { %>http://<%=localURL%>/profile-pictures/<%=user._id%><% } %>);">
+								<p class="uSP_uploadIco"></p>
+                				<input name="avatarlogo" type="file" id="loaderBtn" value hidden>
+							</label>
+							<button type="submit" class="acc_saveLogo">Сохранить</button>
+						</div>
+						</form>
+						<form action="/profileEditBIOConfirm" method="post">
+							<div class="account_info_box">
+							<div class="account_last_name"><p class="labels">Ваша фамилия</p><textarea name="lastName" required><%= user.lastName %></textarea></div>
+							<div class="account_first_name"><p class="labels">Ваше имя</p><textarea name="firstName" required><%= user.firstName %></textarea></div>
+							<div class="account_third_name"><p class="labels">Ваше отчество</p><textarea name="patronymic"><%= user.patronymic %></textarea></div>
+							<div class="account_email"><p class="labels">Ваш E-Mail</p><input type="email" name="email" required value="<%= user.email %>"></div>
+							<div class="account_telephone"><p class="labels">Ваш номер телефона</p><textarea placeholder="" name="telephone"><%= user.telephone %></textarea></div>
+							<button class="account_confirm_edits_btn">Сохранить</button>
+							</div>	
+						</form>
+
+						<form action="/profileEditPassConfirm" method="post">
+							<div class="account_password_box">
+							<div class="account_password_old"><p class="labels">Введите старый пароль</p><input type="password" name="currentPass" required></div>
+							<div class="account_password_new"><p class="labels">Введите новый пароль</p><input type="password" name="newPass" required></div>
+							<div class="account_password_confirm_new"><p class="labels">Подтвердите новый пароль</p><input type="password" name="newPassConfirm" required></div>
+							<button class="account_confirm_password_btn">Сохранить</button>
+							</div>
+						</form>
+        			</div>
+        		</section>
+
+	</main>
+	<%- include partials/footer.ejs %>
+</body>
+<script type="text/javascript" src="/scripts/accountUL_List.js"></script>
+<script type="text/javascript" src="/scripts/imgUploader.js"></script>
+</html>
