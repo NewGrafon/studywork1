@@ -123,25 +123,6 @@ async function start() {
 }
 start();
 
-async function accountInfoChecker(userInfo) {
-    try {
-        if (userInfo) {
-            return {
-                firstName: userInfo.firstName,
-                lastName: userInfo.lastName,
-                patronymic: userInfo.patronymic,
-                email: userInfo.email,
-                telephone: userInfo.telephone,
-                accountType: userInfo.accountType
-            }
-        } else {
-            return null;
-        }
-    } catch (err) {
-        console.log(err);
-    }
-}
-
 /* ИНИЦИАЛИЗАЦИЮ В СЕССИЮ ПРИ ЛОГИРОВАНИИ */
 
 initializePassport(
