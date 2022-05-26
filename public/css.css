@@ -307,6 +307,7 @@ button:active
 	background-repeat: no-repeat;
 	background-position: center;
 	outline: 1px solid grey;
+	image-rendering: optimizeQuality;
 }
 
 .enter_n_register
@@ -1439,13 +1440,13 @@ input[type="password"], input[type="text"], input[type="email"]
 .p_z_backBtn
 {
 	position: relative;
-	height: 28px;
-	width: 96px;
+	height: 36px;
+	width: 112px;
 	margin-right: auto;
 	background-color: white;
 	border-color: gainsboro;
-	color: rgb(163, 163, 163);
-	font-size: 9pt;
+	color: rgb(0, 0, 0);
+	font-size: 11pt;
 }
 
 .p_z_backBtn:hover

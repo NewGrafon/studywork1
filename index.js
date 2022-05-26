@@ -77,34 +77,43 @@ const upload = multer({
 
 /* ПОДКЛЮЧЕНИЕ К БД И СТАРТ СЕРВАКА */
 
-const nets = networkInterfaces();
-const results = {};
-for (const name of Object.keys(nets)) {
-    for (const net of nets[name]) {
-        if (net.family === 'IPv4' && !net.internal) {
-            if (!results[name]) {
-                results[name] = [];
-            }
-            results[name].push(net.address);
-        }
-    }
-}
-
 const SERVER_PORT = 3011;
-let localURL = results.Ethernet[0] || `127.0.0.1:${SERVER_PORT}`;
+let localURL;
+
 
 if (process.env.npm_lifecycle_event == 'dev') {
     require('dotenv').config();
-    localURL = '127.0.0.1:3011';
+    localURL = `127.0.0.1:${SERVER_PORT}`;
+} else {
+    const nets = networkInterfaces();
+    const results = {};
+    for (const name of Object.keys(nets)) {
+        for (const net of nets[name]) {
+            if (net.family === 'IPv4' && !net.internal) {
+                if (!results[name]) {
+                    results[name] = [];
+                }
+                results[name].push(net.address);
+            }
+        }
+    }
+    try {
+        if (results.Ethernet[0] != (null || undefined)) localURL = `${results.Ethernet[0]}:${SERVER_PORT}`;
+    } catch (e) {
+        localURL = `127.0.0.1:${SERVER_PORT}`;
+    }
+    
 }
 
-console.log('localURL: ', localURL);
+console.log('localURL:', localURL);
 
+
+/* СТАРТ СЕРВЕРА */
 async function start() {
     try {
-        const DB_LOG_PASS = /*fs.readFileSync('DB_LOG_PASS.txt', 'utf-8')*/ null;
-        const DB_PORT = /*fs.readFileSync('DB_PORT.txt', 'utf-8')*/ null;
-        const DB = process.env.DB_URI || `mongodb://${DB_LOG_PASS}@127.0.0.1:${DB_PORT}/studywork`;
+        const DB_LOG_PASS = /*fs.readFileSync('DB_LOG_PASS.txt', 'utf-8')*/ ''; // add '@' in end, ok?
+        const DB_PORT = /*fs.readFileSync('DB_PORT.txt', 'utf-8')*/ '27017';
+        const DB = process.env.DB_URI || `mongodb://${DB_LOG_PASS}127.0.0.1:${DB_PORT}/studywork`;
         console.log('CONNECTIONG TO DATABASE: ' + DB);
         await mongoose.connect(DB, {
             useNewUrlParser: true,
@@ -588,7 +597,7 @@ app.post('/schoolEditSave', checkAuthenticated, upload.single('logo'), async (re
             }
         } catch { }
 
-        const user = await accountInfoChecker(await req.user);
+        const user = await await req.user;
         if (await schools_EorC_Request.findOne({ _id: req.query.id })) {
             await schools_EorC_Request.findOneAndUpdate({ _id: req.query.id }, {
                 shortName: req.body.lowName,
@@ -656,7 +665,7 @@ app.post('/schoolEditSave', checkAuthenticated, upload.single('logo'), async (re
 
 app.delete('/schoolDelete', checkAuthenticated, async (req, res) => {
     try {
-        const user = await accountInfoChecker(await req.user);
+        const user = await req.user;
 
         await schools.findOneAndDelete({ creator: user.email, _id: req.query.id });
         res.redirect('/yourSchools');
