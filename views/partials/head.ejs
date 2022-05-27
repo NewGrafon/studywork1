@@ -25,14 +25,14 @@
                     <p class="e_n_r_text active e_n_r_enterBtn" id="enterBtn" onclick="window.location.href = '/enter';">
                     Вход
                     </p>
-                    <div class="enterPng not_active" id="enterBtn" style="background-image: url(enter.png);" onclick="window.location.href = '/enter';"></div>
+                    <div class="enterPng not_active" id="enterBtn" style="background-image: url(/enter.png);" onclick="window.location.href = '/enter';"></div>
 
                     <p class="e_n_r_text active" id="lyambda" style="cursor: default;">λ</p>
 
                     <p class="e_n_r_text active e_n_r_registrationBtn" id="registerBtn" onclick="window.location.href = '/registration';">
                     Регистрация
                     </p>
-                    <div class="registrationPng not_active" id="registerBtn" style="background-image: url(registration.png);" onclick="window.location.href = '/registration';"></div>
+                    <div class="registrationPng not_active" id="registerBtn" style="background-image: url(/registration.png);" onclick="window.location.href = '/registration';"></div>
                 </div>
                 <% } else { %>
 				<div class="profile_pic" style="background-image: <% try { if (user.logo) { %>url(http://<%=localURL%>/profile-pictures/<%=user._id%>)<% } else { %>url('/profilePic.png')<% } } catch (e) { } %>;"></div>

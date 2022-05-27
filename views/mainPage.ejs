@@ -6,7 +6,7 @@
                                 <% allSchools.forEach((elem, id) => { %>   
                                 <div class="sListElement table_row <%= elem.schoolType %> <% for (let key in (elem.educationType)) { %> educ<%=key%> <% } %>">
                                     <div class="table_column schoolTable">
-                                    <a href="/preview/<%= elem._id %>-" class="schoolNameLow"><%= elem.shortName %></a>
+                                    <a href="/preview/<%= elem._id %>" class="schoolNameLow"><%= elem.shortName %></a>
                                     <p class="schoolDescriptionLow"><%= elem.shortDescription %></p>
                                     </div>
                                     
